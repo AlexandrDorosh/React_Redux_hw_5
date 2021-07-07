@@ -1,23 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
+import {useSelector, useDispatch} from "react-redux";
+
+const SomeNestedChildComponent = () => {
+  const counter = useSelector(({counterValue}) => counterValue);
+
+  return(
+      <div>
+          <h1>{counter}</h1>
+      </div>
+  )
+}
+
+const SomeChildComponent = () => {
+  return(
+      <div>
+          <SomeNestedChildComponent />
+      </div>
+  )
+}
 
 function App() {
+    const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <SomeChildComponent />
+
+        <div className='button'>
+            <button onClick={() => {
+                dispatch({type: 'INC'})
+            }}>inc + 1</button>
+
+            <button onClick={() => {
+                dispatch({type: 'INC_TEN', payload: 10})
+            }}>inc + 10</button>
+
+            <button onClick={() => {
+                dispatch({type: 'INC_HUNDRED', payload: 100})
+            }}>inc + 100</button>
+
+            <button onClick={() => {
+                dispatch({type: 'RESET'})
+            }}>0</button>
+
+            <button onClick={() => {
+                dispatch({type: 'DEC'})
+            }}>dec - 1</button>
+
+            <button onClick={() => {
+                dispatch({type: 'DEC_TEN', payload: -10})
+            }}>dec - 10</button>
+
+            <button onClick={() => {
+                dispatch({type: 'DEC_HUNDRED', payload: -100})
+            }}>dec - 100</button>
+
+        </div>
     </div>
   );
 }
